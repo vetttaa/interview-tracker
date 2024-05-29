@@ -1,10 +1,12 @@
 <template>
     <app-menubar :model="items" class="menu">
         <template #item="{ item, props }">
-            <router-link :to="item.path" class="flex align-items-center" v-bind="props.action">
-                <span :class="item.icon" class="p-menuitem-icon"></span>
-                <span class="ml-2">{{ item.label }}</span>
-            </router-link>
+            <template v-if="item.show">
+                <router-link :to="item.path" class="flex align-items-center" v-bind="props.action">
+                    <span :class="item.icon" class="p-menuitem-icon"></span>
+                    <span class="ml-2">{{ item.label }}</span>
+                </router-link>
+            </template>
         </template>
         <template #end>
             <span class="flex align-items-center">
@@ -15,33 +17,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
+import type { ComputedRef } from 'vue';
+
+const userStore = useUserStore()
 
 interface IMenuItem {
     label: string;
     icon: string;
     path: string;
+    show: ComputedRef<boolean>
 }
 
 const items = ref<IMenuItem[]>([{
     label: 'Authorization',
     icon: 'pi pi-user',
-    path: '/auth'
+    path: '/auth',
+    show: computed((): boolean => !userStore.userId)
 },
 {
     label: 'Add',
     icon: 'pi pi-plus',
-    path: '/'
+    path: '/',
+    show: computed((): boolean => !!userStore.userId)
 },
 {
     label: 'Interview',
     icon: 'pi pi-list',
-    path: '/list'
+    path: '/list',
+    show: computed((): boolean => !!userStore.userId)
 },
 {
     label: 'Statistics',
     icon: 'pi pi-chart-pie',
-    path: '/statistic'
+    path: '/statistic',
+    show: computed((): boolean => !!userStore.userId)
 },
 
 ])
