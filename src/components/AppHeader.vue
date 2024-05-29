@@ -9,7 +9,7 @@
             </template>
         </template>
         <template #end>
-            <span class="flex align-items-center">
+            <span v-if="userStore.userId" @click="userStore.userId = ''" class="flex align-items-center">
                 <span class="pi pi-sign-out p-p-menuitem-icon" />
                 <span class="ml-2">Exit</span>
             </span></template>
