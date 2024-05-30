@@ -30,7 +30,8 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/auth',
     name: 'Auth',
-    component: () => import('@/views/PageAuth.vue')
+    component: () => import('@/views/PageAuth.vue'),
+    beforeEnter: checkAuth
   },
   {
     path: '/interview/:id',
@@ -41,7 +42,8 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/list',
     name: 'List',
-    component: () => import('@/views/PageList.vue')
+    component: () => import('@/views/PageList.vue'),
+    beforeEnter: checkAuth
   },
   {
     path: '/statistic',
